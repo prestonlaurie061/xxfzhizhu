@@ -1,0 +1,54 @@
+<tr class="tdbg">
+	<td class="w100" align="right">规则名称：</td> 
+	<td align="left">
+	<input type="text" name="r[name]" class="input"  value="{$name}" style="width:200px"> <font color="red">*</font> 
+	</td>
+</tr>
+<tr class="tdbg">
+  <td align="right">所属模型：</td>
+  <td><select name="arctype[]" multiple="multiple" class="multiple">
+  {foreach $classlist as $vo}
+	<option value="{$vo.id}" {if in_array($vo['id'],$arctypes)}selected="selected"{/if}>{$vo.name}</option>
+  {/foreach}
+  </select>(可按住 CTRL 多选)</td>
+</tr>
+<tr class="tdbg">
+	<td class="w100" align="right">采集上限：</td> 
+	<td align="left">
+	<input type="text" name="r[maxnum]" class="input"  value="{$maxnum|default:0}" style="width:70px"> <span>个，也是自动采集的每日上限，0为不限制  <font color="red">*</font> 
+	</td>
+</tr>
+
+<tr class="tdbg">
+  <td align="right">每日采集次数上限：</td>
+  <td><input name="rules[collect_day_num]" type="text" class="input" value="{$rules.collect_day_num|default:0}" size="5"> <span>次，即每天的采集次数，匹配的网址全部采集后才算一次，0为不限制  <font color="red">*</font> </span></span>
+  </td>
+</tr>
+{if $model!='pic'}
+<tr class="tdbg">
+	<td align="right">内容语言：</td> 
+	<td>
+		<select name="rules[collect_lang]">
+			<option value="cn" {if $rules.collect_lang=='cn'}selected="selected"{/if}>中文</option>
+			<option value="en" {if $rules.collect_lang=='en'}selected="selected"{/if}>英文</option>
+		</select></td>
+</tr>
+<tr class="tdbg">
+  <td align="right">启用伪原创：</td>
+  <td class="icheck_radios"><label><input type="radio" name="rules[replace_word]" value="1" {if $rules.replace_word} checked{/if}>开启</label>
+		<label><input type="radio" name="rules[replace_word]" value="0" {if !$rules.replace_word} checked{/if}>关闭</label> <span>是否进行伪原创词汇替换，词汇在站点优化->伪原创中设置</span>
+	</td>
+</tr>
+{/if}
+<tr class="tdbg">
+	<td align="right">User-Agent：</td>
+	<td>
+	<input name="rules[user_agent]" id="co_user_agent" type="text" class="input" value="{$rules.user_agent|default:'Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 5.2; SV1; Maxthon; .NET CLR 1.1.4322)'}" style='width:350px' />&nbsp;
+	<select onchange="$('#co_user_agent').val(this.value);">
+		<option value="">自定义</option>
+		<option {if $rules['user_agent']=="Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 5.2; SV1; Maxthon; .NET CLR 1.1.4322)"}selected{/if} value="Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 5.2; SV1; Maxthon; .NET CLR 1.1.4322)">正常访问</option>
+		<option {if $rules['user_agent']=="Baiduspider/2.0+(+http://www.baidu.com/search/spider.htm)"}selected{/if} value="Baiduspider/2.0+(+http://www.baidu.com/search/spider.htm)">百度蜘蛛</option>
+		<option {if $rules['user_agent']=="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"}selected{/if} value="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)">谷歌蜘蛛</option>
+	</select>（浏览器标识符，可模拟蜘蛛）
+	</td>
+</tr>
